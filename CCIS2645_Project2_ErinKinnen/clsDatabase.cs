@@ -103,7 +103,7 @@ namespace CCIS2645_Project2_ErinKinnen
                 return dsSQL;
             }
         }
-        public static DataSet GetTechnicianByID(string strProdID)
+        public static DataSet GetTechnicianByID(string strTechID)
         {
             SqlConnection cnSQL;
             SqlCommand cmdSQL;
@@ -112,7 +112,7 @@ namespace CCIS2645_Project2_ErinKinnen
             Boolean blnErrorOccurred = false;
             Int32 intRetCode;
 
-            if (strProdID.Trim().Length > 0)
+            if (strTechID.Trim().Length > 0)
             {
                 cnSQL = AcquireConnection();
                 if (cnSQL == null)
@@ -128,7 +128,7 @@ namespace CCIS2645_Project2_ErinKinnen
 
                     cmdSQL.Parameters.Add(new SqlParameter("@TechnicianID", SqlDbType.NVarChar, 10));
                     cmdSQL.Parameters["@TechnicianID"].Direction = ParameterDirection.Input;
-                    cmdSQL.Parameters["@TechnicianID"].Value = strProdID;
+                    cmdSQL.Parameters["@TechnicianID"].Value = strTechID;
 
                     cmdSQL.Parameters.Add(new SqlParameter("@ErrCode", SqlDbType.Int));
                     cmdSQL.Parameters["ErrCode"].Direction = ParameterDirection.ReturnValue;

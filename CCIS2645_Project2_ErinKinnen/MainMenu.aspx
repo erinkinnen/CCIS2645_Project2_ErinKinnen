@@ -25,7 +25,7 @@
             &nbsp;
             </p>
             <asp:Button ID="btnManageTechnicians" runat="server" style="z-index: 1; left: 165px; top: 160px; width: 250px; position: absolute" Text="Manage Technicians" OnClick="btnManageTechnicians_Click" />
-
+            <asp:TextBox ID="txtError" runat="server" style="z-index: 1; left: 10px; top: 443px; position: absolute; width: 353px; height: 60px;" BorderStyle="None" Font-Size="Smaller" ForeColor="#CC3300"></asp:TextBox>
         </div>
     </form>
 </body>

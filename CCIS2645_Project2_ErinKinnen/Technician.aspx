@@ -11,8 +11,9 @@
         <div>
             <asp:Label ID="lblTechnicianManagement" runat="server" Text="Technician Management"></asp:Label>
             <asp:Label ID="lblTechnician" runat="server" style="z-index: 1; left: 115px; top: 45px; position: absolute" Text="Technician:"></asp:Label>
-            <asp:DropDownList ID="ddlTechnician" runat="server" style="z-index: 1; left: 220px; top: 45px; width: 176px; position: absolute">
+            <asp:DropDownList ID="ddlTechnician" runat="server" style="z-index: 1; left: 220px; top: 45px; width: 176px; position: absolute" AutoPostBack="True" OnSelectedIndexChanged="ddlTechnician_SelectedIndexChanged">
             </asp:DropDownList>
+            <asp:SqlDataSource ID="SqlDataSource1" runat="server"></asp:SqlDataSource>
             <asp:Button ID="btnAddNewTech" runat="server" style="z-index: 1; left: 415px; top: 45px; position: absolute" Text="Add New Technician" />
             <asp:Label ID="lblFirstName" runat="server" style="z-index: 1; left: 115px; top: 75px; position: absolute" Text="* First Name:"></asp:Label>
             <asp:TextBox ID="txtFirstName" runat="server" style="z-index: 1; left: 220px; top: 75px; position: absolute"></asp:TextBox>
