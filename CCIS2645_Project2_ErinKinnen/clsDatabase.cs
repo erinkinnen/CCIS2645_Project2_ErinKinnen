@@ -238,6 +238,7 @@ namespace CCIS2645_Project2_ErinKinnen
                 cmdSQL.Connection = cnSQL;
                 cmdSQL.CommandType = CommandType.StoredProcedure;
                 cmdSQL.CommandText = "uspGetTechnicianList";
+               //testc test test
 
                 cmdSQL.Parameters.Add(new SqlParameter("@ErrCode", SqlDbType.Int));
                 cmdSQL.Parameters["@ErrCode"].Direction = ParameterDirection.ReturnValue;
