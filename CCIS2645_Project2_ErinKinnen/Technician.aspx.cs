@@ -38,29 +38,30 @@ namespace CCIS2645_Project2_ErinKinnen
             dsData = clsDatabase.GetTechnicianList();
             if (dsData == null)
             {
-                txtError.Text = "Error retrieving Technician List- dsData is NULL";
+                txtError.Text = "Error retrieving Technician List";
             }
             else if (dsData.Tables.Count < 1)
             {
-                txtError.Text = "Error retrieving Technician List- dsData is < 1";
+                txtError.Text = "Error retrieving Technician List";
                 dsData.Dispose();
             }
             else
             {
                 ddlTechnician.DataSource = dsData.Tables[0];
-                ddlTechnician.DataTextField = "Technician";
+                ddlTechnician.DataTextField = "TechName";
                 ddlTechnician.DataValueField = "TechnicianID";
                 ddlTechnician.DataBind();
 
+                ddlTechnician.Items.Insert(0, new ListItem("-- TECHNICIAN --"));
                 dsData.Dispose();
             }
         }
 
-        private void DisplayTechnician(String strProdID)
+        private void DisplayTechnician(String strTechID)
         {
             DataSet dsData;
 
-            dsData = clsDatabase.GetTechnicianByID(strProdID);
+            dsData = clsDatabase.GetTechnicianByID(strTechID);
             if(dsData == null)
             {
                 txtError.Text = "Error retrieving Technician";
@@ -72,10 +73,61 @@ namespace CCIS2645_Project2_ErinKinnen
             }
             else
             {
-                if(dsData.Tables[0].Rows[0]["Technician"]== DBNull.Value)
+                if(dsData.Tables[0].Rows[0]["FName"]== DBNull.Value)
                 {
-                    txtFirstName.Text = dsData.Tables[0].Rows[0]["FirstName"].ToString();
-                    txtLastName.Text = dsData.Tables[0].Rows[0]["LastName"].ToString();
+                    txtFirstName.Text = "";
+                }
+                else
+                {
+                    txtFirstName.Text = dsData.Tables[0].Rows[0]["FName"].ToString();
+                }
+                if (dsData.Tables[0].Rows[0]["LName"] == DBNull.Value)
+                {
+                    txtLastName.Text = "";
+                }
+                else
+                {
+                    txtLastName.Text = dsData.Tables[0].Rows[0]["LName"].ToString();
+                }
+                if (dsData.Tables[0].Rows[0]["MInit"] == DBNull.Value)
+                {
+                    txtMiddleInitial.Text = "";
+                }
+                else
+                {
+                    txtMiddleInitial.Text = dsData.Tables[0].Rows[0]["MInit"].ToString();
+                }
+                if (dsData.Tables[0].Rows[0]["Email"] == DBNull.Value)
+                {
+                    txtEmail.Text = "";
+                }
+                else
+                {
+                    txtEmail.Text = dsData.Tables[0].Rows[0]["Email"].ToString();
+                }
+                if (dsData.Tables[0].Rows[0]["Dept"] == DBNull.Value)
+                {
+                    txtDepartment.Text = "";
+                }
+                else
+                {
+                    txtDepartment.Text = dsData.Tables[0].Rows[0]["Dept"].ToString();
+                }
+                if (dsData.Tables[0].Rows[0]["Phone"] == DBNull.Value)
+                {
+                    txtPhone.Text = "";
+                }
+                else
+                {
+                    txtPhone.Text = dsData.Tables[0].Rows[0]["Phone"].ToString();
+                }
+                if (dsData.Tables[0].Rows[0]["HRate"] == DBNull.Value)
+                {
+                    txtHourlyRate.Text = "";
+                }
+                else
+                {
+                    txtHourlyRate.Text = dsData.Tables[0].Rows[0]["HRate"].ToString();
                 }
 
                 //if(dsData.Tables[0].Rows[0]["ProductHS"]==DBNull.Value)
@@ -96,6 +148,25 @@ namespace CCIS2645_Project2_ErinKinnen
         protected void ddlTechnician_SelectedIndexChanged(object sender, EventArgs e)
         {
             DisplayTechnician(ddlTechnician.SelectedValue.ToString());
+        }
+
+        protected void btnAddNewTech_Click(object sender, EventArgs e)
+        {
+            ddlTechnician.Enabled = false;
+            txtFirstName.Text = "";
+            txtLastName.Text = "";
+            txtMiddleInitial.Text = "";
+            txtEmail.Text = "";
+            txtDepartment.Text = "";
+            txtPhone.Text = "";
+            txtHourlyRate.Text = "";
+        }
+
+        protected void btnClear_Click(object sender, EventArgs e)
+        {
+            ddlTechnician.Enabled = true;
+            txtLastName.Text = "";
+            LoadTechnicians();
         }
     }
 }

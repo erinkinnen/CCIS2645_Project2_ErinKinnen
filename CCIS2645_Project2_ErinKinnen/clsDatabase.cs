@@ -131,7 +131,7 @@ namespace CCIS2645_Project2_ErinKinnen
                     cmdSQL.Parameters["@TechnicianID"].Value = strTechID;
 
                     cmdSQL.Parameters.Add(new SqlParameter("@ErrCode", SqlDbType.Int));
-                    cmdSQL.Parameters["ErrCode"].Direction = ParameterDirection.ReturnValue;
+                    cmdSQL.Parameters["@ErrCode"].Direction = ParameterDirection.ReturnValue;
 
                     dsSQL = new DataSet();
                     try
@@ -238,7 +238,6 @@ namespace CCIS2645_Project2_ErinKinnen
                 cmdSQL.Connection = cnSQL;
                 cmdSQL.CommandType = CommandType.StoredProcedure;
                 cmdSQL.CommandText = "uspGetTechnicianList";
-               //testc test test
 
                 cmdSQL.Parameters.Add(new SqlParameter("@ErrCode", SqlDbType.Int));
                 cmdSQL.Parameters["@ErrCode"].Direction = ParameterDirection.ReturnValue;

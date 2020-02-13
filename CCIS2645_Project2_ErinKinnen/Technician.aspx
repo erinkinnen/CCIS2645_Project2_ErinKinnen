@@ -14,7 +14,7 @@
             <asp:DropDownList ID="ddlTechnician" runat="server" style="z-index: 1; left: 220px; top: 45px; width: 176px; position: absolute" AutoPostBack="True" OnSelectedIndexChanged="ddlTechnician_SelectedIndexChanged">
             </asp:DropDownList>
             <asp:SqlDataSource ID="SqlDataSource1" runat="server"></asp:SqlDataSource>
-            <asp:Button ID="btnAddNewTech" runat="server" style="z-index: 1; left: 415px; top: 45px; position: absolute" Text="Add New Technician" />
+            <asp:Button ID="btnAddNewTech" runat="server" style="z-index: 1; left: 415px; top: 45px; position: absolute" Text="Add New Technician" OnClick="btnAddNewTech_Click" />
             <asp:Label ID="lblFirstName" runat="server" style="z-index: 1; left: 115px; top: 75px; position: absolute" Text="* First Name:"></asp:Label>
             <asp:TextBox ID="txtFirstName" runat="server" style="z-index: 1; left: 220px; top: 75px; position: absolute"></asp:TextBox>
             <asp:Label ID="lblMiddleInitial" runat="server" style="z-index: 1; left: 115px; top: 105px; position: absolute" Text="Middle Initial:"></asp:Label>
@@ -30,7 +30,7 @@
             <asp:Label ID="lblHourlyRate" runat="server" style="z-index: 1; left: 115px; top: 255px; position: absolute" Text="*Hourly Rate:"></asp:Label>
             <asp:TextBox ID="txtHourlyRate" runat="server" style="z-index: 1; left: 220px; top: 255px; position: absolute"></asp:TextBox>
             <asp:Label ID="lblRequired" runat="server" style="z-index: 1; left: 115px; top: 295px; position: absolute" Text="* indicates a required field" ForeColor="#CC3300" Font-Size="Smaller"></asp:Label>
-            <asp:Button ID="btnClear" runat="server" style="z-index: 1; left: 200px; top: 334px;  width: 80px; position: absolute; right: 1176px;" Text="Clear" OnClientClick="this.form.reset();return false;" />
+            <asp:Button ID="btnClear" runat="server" style="z-index: 1; left: 200px; top: 334px;  width: 80px; position: absolute; right: 1176px;" Autopostback="True" Text="Clear" OnClientClick="this.form.reset();return false;" OnClick="btnClear_Click" />
             <asp:Button ID="btnSubmit" runat="server" style="z-index: 1; left: 320px; top:334px; width: 80px; position: absolute" Text="Submit" OnClick="btnSubmit_Click" />
             <asp:TextBox ID="txtError" runat="server" style="z-index: 1; left: 10px; top: 443px; position: absolute; width: 353px; height: 60px;" BorderStyle="None" Font-Size="Smaller" ForeColor="#CC3300"></asp:TextBox>
             <asp:Button ID="btnMain_Technician" runat="server" style="z-index: 1; left: 645px; top: 473px; position: absolute" Text="Return to Main Menu" OnClick="btnMain_Technician_Click" />
