@@ -14,11 +14,64 @@ namespace CCIS2645_Project2_ErinKinnen
         protected void Page_Load(object sender, EventArgs e)
         {
             txtError.Text = "Error Message";
-            if(!IsPostBack)
+
+            if (!IsPostBack)
             {
                 txtError.Text = "";
                 LoadTechnicians();
             }
+
+            //if (FormValidation() == false)
+            //{
+            //    btnAccept.Enabled = false;
+            //    btnAddNewTech.Enabled = false;
+            //}
+        }
+
+
+        private Boolean FormValidation()
+        {
+            Boolean blnOk = true;
+            String strValMessage = "";
+            //txtError.Text = "";
+
+            if(txtFirstName.Text.Trim().Length < 1)
+            {
+                blnOk = false;
+                strValMessage += "First Name is required ";
+            }
+            if (txtLastName.Text.Trim().Length < 1)
+            {
+                blnOk = false;
+                strValMessage += "Last Name is required ";
+            }
+            if (String.IsNullOrWhiteSpace(txtPhone.Text))
+            {
+                blnOk = false;
+                strValMessage += "Phone number is required ";
+            }
+            else
+            {
+                Int64 intPhone;
+
+                if(txtPhone.Text.Length != 10)
+                {
+                    strValMessage += "Phone number must be 10 digits ";
+                }
+                if(!Int64.TryParse(txtPhone.Text, out intPhone))
+                {
+                    blnOk = false;
+                    strValMessage += "Phone number must be numeric ";
+                }
+            }
+            if (txtHourlyRate.Text.Trim().Length < 1)
+            {
+                blnOk = false;
+                strValMessage += "Hourly rate is required ";
+            }
+
+            txtError.Text = strValMessage;
+            return blnOk;
         }
 
         protected void btnMain_Technician_Click(object sender, EventArgs e)
@@ -26,11 +79,49 @@ namespace CCIS2645_Project2_ErinKinnen
             Response.Redirect("MainMenu.aspx");
         }
 
-        protected void btnSubmit_Click(object sender, EventArgs e)
+        protected void btnUpdate_Click(object sender, EventArgs e)
         {
+            Int32 intRetValue;
+            //String strHS;
 
+            txtError.Text = "";
+
+            if (FormValidation())
+            {
+                //** Updating a Technician
+                intRetValue = clsDatabase.UpdateTechnician(Convert.ToInt32(ddlTechnician.SelectedValue), txtLastName.Text.Trim(), txtFirstName.Text.Trim(), txtMiddleInitial.Text.Trim(), txtEmail.Text.Trim(), txtDepartment.Text.Trim(), txtPhone.Text.Trim(), txtHourlyRate.Text.Trim());
+
+                if (intRetValue == 0)
+                {
+                    LoadTechnicians(); // Reload the Drop Down List
+                    txtError.Text = "Technician updated";
+                    ClearForm();
+                }
+                else
+                {
+
+                    txtError.Text = "Error updating Technician";
+                }
+            }
+
+            // Enable buttons so you can click, validation should take care of whether we can update or not
+            btnUpdate.Enabled = true;
+            btnClear.Enabled = true;
+            btnRemove.Enabled = true;
+            btnCancel.Enabled = true;
         }
 
+        private void ClearForm()
+        {
+            txtFirstName.Text = "";
+            txtMiddleInitial.Text = "";
+            txtLastName.Text = "";
+            txtEmail.Text = "";
+            txtDepartment.Text = "";
+            txtPhone.Text = "";
+            txtHourlyRate.Text = "";
+
+        }
         private void LoadTechnicians()
         {
             DataSet dsData;
@@ -53,6 +144,7 @@ namespace CCIS2645_Project2_ErinKinnen
                 ddlTechnician.DataBind();
 
                 ddlTechnician.Items.Insert(0, new ListItem("-- TECHNICIAN --"));
+                ddlTechnician.SelectedIndex = 0;
                 dsData.Dispose();
             }
         }
@@ -130,18 +222,6 @@ namespace CCIS2645_Project2_ErinKinnen
                     txtHourlyRate.Text = dsData.Tables[0].Rows[0]["HRate"].ToString();
                 }
 
-                //if(dsData.Tables[0].Rows[0]["ProductHS"]==DBNull.Value)
-                //{
-                //    rdoHW.Checked = false;
-                //    rdoSW.Checked = false;
-                //}
-                //else
-                //{
-                //    if(dsData.Tables[0].Rows[0]["Manufacturer"] == DBNull.Value
-                //        {
-                //        txtManufacturer.Text = "";
-                //    })
-                //}
             }
         }
 
@@ -164,9 +244,59 @@ namespace CCIS2645_Project2_ErinKinnen
 
         protected void btnClear_Click(object sender, EventArgs e)
         {
+            txtError.Text = "Clear Clicked";
             ddlTechnician.Enabled = true;
-            txtLastName.Text = "";
-            LoadTechnicians();
+            ddlTechnician.SelectedIndex = 0;
+            DisplayTechnician(ddlTechnician.SelectedValue.ToString());
+
+        }
+
+        protected void btnCancel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnRemove_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnAdd_Click(object sender, EventArgs e)
+        {
+            Int32 intRetValue;
+            String strHS;
+
+            if (FormValidation())
+            {
+                //** Inserting a new Technician
+                intRetValue = clsDatabase.InsertTechnician(txtLastName.Text.Trim(), txtFirstName.Text.Trim(), txtMiddleInitial.Text.Trim(), txtEmail.Text.Trim(), txtDepartment.Text.Trim(), txtPhone.Text.Trim(), txtHourlyRate.Text.Trim());
+
+                if (intRetValue == 0)
+                {
+                    LoadTechnicians(); // Reload the Drop Down List
+
+                    // Clear out all the fields if successfull\
+                    txtFirstName.Text = "";
+                    txtLastName.Text = "";
+                    txtMiddleInitial.Text = "";
+                    txtPhone.Text = "";
+                    txtHourlyRate.Text = "";
+                    txtDepartment.Text = "";
+                    txtEmail.Text = "";
+
+                    txtError.Text = "Techncian Added";
+                }
+                else
+                {
+                    txtError.Text = "Error inserting new technician";
+                }
+            }
+
+            //Enable the new technician button
+            btnAddNewTech.Enabled = true;
+            ddlTechnician.Enabled = true;
+            // Probably should reload the technican ddl
+            //LoadTechnicians();
         }
     }
 }
