@@ -13,15 +13,15 @@ namespace CCIS2645_Project2_ErinKinnen
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            txtError.Text = "Error Message";
+            //txtError.Text = "Error Message";
 
             if (!IsPostBack)
             {
                 txtError.Text = "";
                 LoadTechnicians();
-                btnUpdate.Enabled = false;
-                btnAdd.Enabled = false;
-                btnRemove.Enabled = false;
+                //btnUpdate.Enabled = false;
+                //btnAdd.Enabled = false;
+                //btnRemove.Enabled = false;
             }
         }
 
@@ -41,6 +41,7 @@ namespace CCIS2645_Project2_ErinKinnen
             {
                 blnOk = false;
                 strValMessage += "Last Name is required ";
+                btnUpdate.Enabled = true;
             }
             if (String.IsNullOrWhiteSpace(txtPhone.Text))
             {
@@ -226,15 +227,17 @@ namespace CCIS2645_Project2_ErinKinnen
                     LoadTechnicians(); // Reload the Drop Down List
                     txtError.Text = "Technician updated";
                     ClearForm();
+                    //btnUpdate.Enabled = true;
                 }
                 else
                 {
 
                     txtError.Text = "Error updating Technician";
+                    //btnUpdate.Enabled = true;
                 }
             }
 
-            btnUpdate.Enabled = false;
+            btnUpdate.Enabled = true;
             btnClear.Enabled = true;
             btnRemove.Enabled = false;
             btnCancel.Enabled = true;
