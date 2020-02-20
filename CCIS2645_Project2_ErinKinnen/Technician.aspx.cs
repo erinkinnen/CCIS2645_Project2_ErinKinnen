@@ -19,16 +19,13 @@ namespace CCIS2645_Project2_ErinKinnen
             {
                 txtError.Text = "";
                 LoadTechnicians();
+                btnUpdate.Enabled = false;
+                btnAdd.Enabled = false;
+                btnRemove.Enabled = false;
             }
-
-            //if (FormValidation() == false)
-            //{
-            //    btnAccept.Enabled = false;
-            //    btnAddNewTech.Enabled = false;
-            //}
         }
 
-
+ //METHODS
         private Boolean FormValidation()
         {
             Boolean blnOk = true;
@@ -48,7 +45,7 @@ namespace CCIS2645_Project2_ErinKinnen
             if (String.IsNullOrWhiteSpace(txtPhone.Text))
             {
                 blnOk = false;
-                strValMessage += "Phone number is required ";
+                strValMessage += "whitespacePhone number is required ";
             }
             else
             {
@@ -56,12 +53,12 @@ namespace CCIS2645_Project2_ErinKinnen
 
                 if(txtPhone.Text.Length != 10)
                 {
-                    strValMessage += "Phone number must be 10 digits ";
+                    strValMessage += "lessthan10Phone number must be 10 digits ";
                 }
                 if(!Int64.TryParse(txtPhone.Text, out intPhone))
                 {
                     blnOk = false;
-                    strValMessage += "Phone number must be numeric ";
+                    strValMessage += "numberPhone number must be numeric ";
                 }
             }
             if (txtHourlyRate.Text.Trim().Length < 1)
@@ -73,44 +70,6 @@ namespace CCIS2645_Project2_ErinKinnen
             txtError.Text = strValMessage;
             return blnOk;
         }
-
-        protected void btnMain_Technician_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("MainMenu.aspx");
-        }
-
-        protected void btnUpdate_Click(object sender, EventArgs e)
-        {
-            Int32 intRetValue;
-            //String strHS;
-
-            txtError.Text = "";
-
-            if (FormValidation())
-            {
-                //** Updating a Technician
-                intRetValue = clsDatabase.UpdateTechnician(Convert.ToInt32(ddlTechnician.SelectedValue), txtLastName.Text.Trim(), txtFirstName.Text.Trim(), txtMiddleInitial.Text.Trim(), txtEmail.Text.Trim(), txtDepartment.Text.Trim(), txtPhone.Text.Trim(), txtHourlyRate.Text.Trim());
-
-                if (intRetValue == 0)
-                {
-                    LoadTechnicians(); // Reload the Drop Down List
-                    txtError.Text = "Technician updated";
-                    ClearForm();
-                }
-                else
-                {
-
-                    txtError.Text = "Error updating Technician";
-                }
-            }
-
-            // Enable buttons so you can click, validation should take care of whether we can update or not
-            btnUpdate.Enabled = true;
-            btnClear.Enabled = true;
-            btnRemove.Enabled = true;
-            btnCancel.Enabled = true;
-        }
-
         private void ClearForm()
         {
             txtFirstName.Text = "";
@@ -148,13 +107,12 @@ namespace CCIS2645_Project2_ErinKinnen
                 dsData.Dispose();
             }
         }
-
         private void DisplayTechnician(String strTechID)
         {
             DataSet dsData;
 
             dsData = clsDatabase.GetTechnicianByID(strTechID);
-            if(dsData == null)
+            if (dsData == null)
             {
                 txtError.Text = "Error retrieving Technician";
             }
@@ -165,7 +123,7 @@ namespace CCIS2645_Project2_ErinKinnen
             }
             else
             {
-                if(dsData.Tables[0].Rows[0]["FName"]== DBNull.Value)
+                if (dsData.Tables[0].Rows[0]["FName"] == DBNull.Value)
                 {
                     txtFirstName.Text = "";
                 }
@@ -224,12 +182,19 @@ namespace CCIS2645_Project2_ErinKinnen
 
             }
         }
-
         protected void ddlTechnician_SelectedIndexChanged(object sender, EventArgs e)
         {
             DisplayTechnician(ddlTechnician.SelectedValue.ToString());
+            btnUpdate.Enabled = true;
+            btnRemove.Enabled = true;
         }
 
+
+        //BUTTONS
+        protected void btnMain_Technician_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("MainMenu.aspx");
+        }
         protected void btnAddNewTech_Click(object sender, EventArgs e)
         {
             ddlTechnician.Enabled = false;
@@ -240,27 +205,40 @@ namespace CCIS2645_Project2_ErinKinnen
             txtDepartment.Text = "";
             txtPhone.Text = "";
             txtHourlyRate.Text = "";
+            btnAdd.Enabled = true;
+            btnUpdate.Enabled = false;
+            btnRemove.Enabled = false;
         }
-
-        protected void btnClear_Click(object sender, EventArgs e)
+        protected void btnUpdate_Click(object sender, EventArgs e)
         {
-            txtError.Text = "Clear Clicked";
-            ddlTechnician.Enabled = true;
-            ddlTechnician.SelectedIndex = 0;
-            DisplayTechnician(ddlTechnician.SelectedValue.ToString());
+            Int32 intRetValue;
+            //String strHS;
 
+            txtError.Text = "";
+
+            if (FormValidation())
+            {
+                //** Updating a Technician
+                intRetValue = clsDatabase.UpdateTechnician(Convert.ToInt32(ddlTechnician.SelectedValue), txtLastName.Text.Trim(), txtFirstName.Text.Trim(), txtMiddleInitial.Text.Trim(), txtEmail.Text.Trim(), txtDepartment.Text.Trim(), txtPhone.Text.Trim(), txtHourlyRate.Text.Trim());
+
+                if (intRetValue == 0)
+                {
+                    LoadTechnicians(); // Reload the Drop Down List
+                    txtError.Text = "Technician updated";
+                    ClearForm();
+                }
+                else
+                {
+
+                    txtError.Text = "Error updating Technician";
+                }
+            }
+
+            btnUpdate.Enabled = false;
+            btnClear.Enabled = true;
+            btnRemove.Enabled = false;
+            btnCancel.Enabled = true;
         }
-
-        protected void btnCancel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void btnRemove_Click(object sender, EventArgs e)
-        {
-
-        }
-
         protected void btnAdd_Click(object sender, EventArgs e)
         {
             Int32 intRetValue;
@@ -268,14 +246,12 @@ namespace CCIS2645_Project2_ErinKinnen
 
             if (FormValidation())
             {
-                //** Inserting a new Technician
                 intRetValue = clsDatabase.InsertTechnician(txtLastName.Text.Trim(), txtFirstName.Text.Trim(), txtMiddleInitial.Text.Trim(), txtEmail.Text.Trim(), txtDepartment.Text.Trim(), txtPhone.Text.Trim(), txtHourlyRate.Text.Trim());
 
                 if (intRetValue == 0)
                 {
-                    LoadTechnicians(); // Reload the Drop Down List
+                    LoadTechnicians();
 
-                    // Clear out all the fields if successfull\
                     txtFirstName.Text = "";
                     txtLastName.Text = "";
                     txtMiddleInitial.Text = "";
@@ -285,6 +261,7 @@ namespace CCIS2645_Project2_ErinKinnen
                     txtEmail.Text = "";
 
                     txtError.Text = "Techncian Added";
+                    btnAdd.Enabled = false;
                 }
                 else
                 {
@@ -292,11 +269,41 @@ namespace CCIS2645_Project2_ErinKinnen
                 }
             }
 
-            //Enable the new technician button
             btnAddNewTech.Enabled = true;
             ddlTechnician.Enabled = true;
-            // Probably should reload the technican ddl
-            //LoadTechnicians();
+        }
+        protected void btnCancel_Click(object sender, EventArgs e)
+        {
+            ddlTechnician.Enabled = true;
+            ddlTechnician.SelectedIndex = 0;
+            ClearForm();
+        }
+        protected void btnRemove_Click(object sender, EventArgs e)
+        {
+            Int32 intRetCode;
+
+            intRetCode = clsDatabase.DeleteTechnician(Int32.Parse(ddlTechnician.SelectedValue));
+
+            if (intRetCode == 0)
+            {
+                LoadTechnicians();
+                ClearForm();
+
+                txtError.Text = "Technician successfully deleted";
+            }
+            else
+            {
+                txtError.Text = "Unable to remove technician";
+            }
+        }
+        protected void btnClear_Click(object sender, EventArgs e)
+        {
+            txtError.Text = "Clear Clicked";
+            ddlTechnician.Enabled = true;
+            ddlTechnician.SelectedIndex = 0;
+            DisplayTechnician(ddlTechnician.SelectedValue.ToString());
+            ClearForm();
+
         }
     }
 }
