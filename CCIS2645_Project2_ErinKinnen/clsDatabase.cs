@@ -327,12 +327,13 @@ namespace CCIS2645_Project2_ErinKinnen
 
         }
 
-        public static Int32 InsertTechnician(string strLName, string strFName, string strMInit, string strEmail, string strDept, string strPhone, string intHRate)
+        public static Int32 InsertTechnician(string strLName, string strFName, string strMInit, string strEmail, string strDept, string strPhone, string strHRate)
         {
             SqlConnection cnSQL;
             SqlCommand cmdSQL;
             Boolean blnErrorOccurred = false;
             Int32 intRetCode = 0;
+            String newtechIDtest;
 
             cnSQL = AcquireConnection();
             if (cnSQL == null)
@@ -350,10 +351,10 @@ namespace CCIS2645_Project2_ErinKinnen
 
                 // Creating a new Technican ID to insert
                 cmdSQL.Parameters.Add(new SqlParameter("@NewTechnicianID", SqlDbType.Int));
-                cmdSQL.Parameters["@NewTechnicianID"].Direction = ParameterDirection.Input;
-                cmdSQL.Parameters["@NewTechnicianID"].Value = 10;
+                cmdSQL.Parameters["@NewTechnicianID"].Direction = ParameterDirection.Output;
+                //cmdSQL.Parameters["@NewTechnicianID"].Value = newtechIDtest;
 
-                cmdSQL.Parameters.Add(new SqlParameter("@LName", SqlDbType.NVarChar, 30));
+                 cmdSQL.Parameters.Add(new SqlParameter("@LName", SqlDbType.NVarChar, 30));
                 cmdSQL.Parameters["@LName"].Direction = ParameterDirection.Input;
                 cmdSQL.Parameters["@LName"].Value = strLName;
 
@@ -401,9 +402,9 @@ namespace CCIS2645_Project2_ErinKinnen
                 cmdSQL.Parameters["@Phone"].Direction = ParameterDirection.Input;
                 cmdSQL.Parameters["@Phone"].Value = strPhone;
 
-                cmdSQL.Parameters.Add(new SqlParameter("@HRate", SqlDbType.NVarChar, 10));
+                cmdSQL.Parameters.Add(new SqlParameter("@HRate", SqlDbType.Money));
                 cmdSQL.Parameters["@HRate"].Direction = ParameterDirection.Input;
-                cmdSQL.Parameters["@HRate"].Value = intHRate;
+                cmdSQL.Parameters["@HRate"].Value = strHRate;
 
                 cmdSQL.Parameters.Add(new SqlParameter("@ErrCode", SqlDbType.Int));
                 cmdSQL.Parameters["@ErrCode"].Direction = ParameterDirection.ReturnValue;
@@ -411,6 +412,7 @@ namespace CCIS2645_Project2_ErinKinnen
                 try
                 {
                     intRetCode = cmdSQL.ExecuteNonQuery();
+                    //return newtechIDtest; //New Tech ID output capture output parameter returned
                 }
                 catch (Exception ex)
                 {
@@ -435,7 +437,7 @@ namespace CCIS2645_Project2_ErinKinnen
             }
         }
 
-        public static Int32 UpdateTechnician(int intTechnicianID, string strLname, string strFname, string strMinit, string strEmail, string strDept, string strPhone, string intHRate)
+        public static Int32 UpdateTechnician(int intTechnicianID, string strLname, string strFname, string strMinit, string strEmail, string strDept, string strPhone, string strHRate)
         {
             SqlConnection cnSQL;
             SqlCommand cmdSQL;
@@ -510,7 +512,7 @@ namespace CCIS2645_Project2_ErinKinnen
 
                 cmdSQL.Parameters.Add(new SqlParameter("@HRate", SqlDbType.NVarChar, 10));
                 cmdSQL.Parameters["@HRate"].Direction = ParameterDirection.Input;
-                cmdSQL.Parameters["@HRate"].Value = intHRate;
+                cmdSQL.Parameters["@HRate"].Value = strHRate;
 
 
                 // Error code

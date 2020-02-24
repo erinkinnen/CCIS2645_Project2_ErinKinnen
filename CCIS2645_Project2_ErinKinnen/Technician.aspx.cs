@@ -41,7 +41,7 @@ namespace CCIS2645_Project2_ErinKinnen
             {
                 blnOk = false;
                 strValMessage += "Last Name is required ";
-                btnUpdate.Enabled = true;
+                //btnUpdate.Enabled = true;
             }
             if (String.IsNullOrWhiteSpace(txtPhone.Text))
             {
@@ -186,8 +186,9 @@ namespace CCIS2645_Project2_ErinKinnen
         protected void ddlTechnician_SelectedIndexChanged(object sender, EventArgs e)
         {
             DisplayTechnician(ddlTechnician.SelectedValue.ToString());
-            btnUpdate.Enabled = true;
+            //btnUpdate.Enabled = true;
             btnRemove.Enabled = true;
+            txtError.Text = "";
         }
 
 
@@ -207,41 +208,41 @@ namespace CCIS2645_Project2_ErinKinnen
             txtPhone.Text = "";
             txtHourlyRate.Text = "";
             btnAdd.Enabled = true;
-            btnUpdate.Enabled = false;
+            //btnUpdate.Enabled = false;
             btnRemove.Enabled = false;
         }
-        protected void btnUpdate_Click(object sender, EventArgs e)
-        {
-            Int32 intRetValue;
-            //String strHS;
+        //protected void btnUpdate_Click(object sender, EventArgs e)
+        //{
+        //    Int32 intRetValue;
+        //    //String strHS;
 
-            txtError.Text = "";
+        //    txtError.Text = "";
 
-            if (FormValidation())
-            {
-                //** Updating a Technician
-                intRetValue = clsDatabase.UpdateTechnician(Convert.ToInt32(ddlTechnician.SelectedValue), txtLastName.Text.Trim(), txtFirstName.Text.Trim(), txtMiddleInitial.Text.Trim(), txtEmail.Text.Trim(), txtDepartment.Text.Trim(), txtPhone.Text.Trim(), txtHourlyRate.Text.Trim());
+        //    if (FormValidation())
+        //    {
+        //        //** Updating a Technician
+        //        intRetValue = clsDatabase.UpdateTechnician(Convert.ToInt32(ddlTechnician.SelectedValue), txtLastName.Text.Trim(), txtFirstName.Text.Trim(), txtMiddleInitial.Text.Trim(), txtEmail.Text.Trim(), txtDepartment.Text.Trim(), txtPhone.Text.Trim(), txtHourlyRate.Text.Trim());
 
-                if (intRetValue == 0)
-                {
-                    LoadTechnicians(); // Reload the Drop Down List
-                    txtError.Text = "Technician updated";
-                    ClearForm();
-                    //btnUpdate.Enabled = true;
-                }
-                else
-                {
+        //        if (intRetValue == 0)
+        //        {
+        //            LoadTechnicians(); // Reload the Drop Down List
+        //            txtError.Text = "Technician updated";
+        //            ClearForm();
+        //            //btnUpdate.Enabled = true;
+        //        }
+        //        else
+        //        {
 
-                    txtError.Text = "Error updating Technician";
-                    //btnUpdate.Enabled = true;
-                }
-            }
+        //            txtError.Text = "Error updating Technician";
+        //            //btnUpdate.Enabled = true;
+        //        }
+        //    }
 
-            btnUpdate.Enabled = true;
-            btnClear.Enabled = true;
-            btnRemove.Enabled = false;
-            btnCancel.Enabled = true;
-        }
+        //    btnUpdate.Enabled = true;
+        //    btnClear.Enabled = true;
+        //    btnRemove.Enabled = false;
+        //    btnCancel.Enabled = true;
+        //}
         protected void btnAdd_Click(object sender, EventArgs e)
         {
             Int32 intRetValue;
@@ -249,26 +250,48 @@ namespace CCIS2645_Project2_ErinKinnen
 
             if (FormValidation())
             {
-                intRetValue = clsDatabase.InsertTechnician(txtLastName.Text.Trim(), txtFirstName.Text.Trim(), txtMiddleInitial.Text.Trim(), txtEmail.Text.Trim(), txtDepartment.Text.Trim(), txtPhone.Text.Trim(), txtHourlyRate.Text.Trim());
-
-                if (intRetValue == 0)
+                if (ddlTechnician.SelectedIndex == 0)
                 {
-                    LoadTechnicians();
+                    intRetValue = clsDatabase.InsertTechnician(txtLastName.Text.Trim(), txtFirstName.Text.Trim(), txtMiddleInitial.Text.Trim(), txtEmail.Text.Trim(), txtDepartment.Text.Trim(), txtPhone.Text.Trim(), txtHourlyRate.Text.Trim());
 
-                    txtFirstName.Text = "";
-                    txtLastName.Text = "";
-                    txtMiddleInitial.Text = "";
-                    txtPhone.Text = "";
-                    txtHourlyRate.Text = "";
-                    txtDepartment.Text = "";
-                    txtEmail.Text = "";
+                    if (intRetValue == 0)
+                    {
+                        LoadTechnicians();
 
-                    txtError.Text = "Techncian Added";
-                    btnAdd.Enabled = false;
+                        txtFirstName.Text = "";
+                        txtLastName.Text = "";
+                        txtMiddleInitial.Text = "";
+                        txtPhone.Text = "";
+                        txtHourlyRate.Text = "";
+                        txtDepartment.Text = "";
+                        txtEmail.Text = "";
+
+                        txtError.Text = "Techncian Added";
+                        btnAdd.Enabled = false;
+                    }
+                    else
+                    {
+                        txtError.Text += "Error inserting new technician";
+                    }
                 }
                 else
                 {
-                    txtError.Text = "Error inserting new technician";
+                    //** Updating a Technician
+                    intRetValue = clsDatabase.UpdateTechnician(Convert.ToInt32(ddlTechnician.SelectedValue), txtLastName.Text.Trim(), txtFirstName.Text.Trim(), txtMiddleInitial.Text.Trim(), txtEmail.Text.Trim(), txtDepartment.Text.Trim(), txtPhone.Text.Trim(), txtHourlyRate.Text.Trim());
+
+                    if (intRetValue == 0)
+                    {
+                        LoadTechnicians(); // Reload the Drop Down List
+                        txtError.Text = "Technician updated";
+                        ClearForm();
+                        //btnUpdate.Enabled = true;
+                    }
+                    else
+                    {
+
+                        txtError.Text = "Error updating Technician";
+                        //btnUpdate.Enabled = true;
+                    }
                 }
             }
 
