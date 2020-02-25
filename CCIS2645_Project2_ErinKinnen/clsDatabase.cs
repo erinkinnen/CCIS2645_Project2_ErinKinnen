@@ -327,7 +327,7 @@ namespace CCIS2645_Project2_ErinKinnen
 
         }
 
-        public static Int32 InsertTechnician(string strLName, string strFName, string strMInit, string strEmail, string strDept, string strPhone, string strHRate)
+        public static Int32 InsertTechnician(string strLName, string strFName, string strMInit, string strEmail, string strDept, string strPhone, string decHRate)
         {
             SqlConnection cnSQL;
             SqlCommand cmdSQL;
@@ -404,7 +404,7 @@ namespace CCIS2645_Project2_ErinKinnen
 
                 cmdSQL.Parameters.Add(new SqlParameter("@HRate", SqlDbType.Money));
                 cmdSQL.Parameters["@HRate"].Direction = ParameterDirection.Input;
-                cmdSQL.Parameters["@HRate"].Value = strHRate;
+                cmdSQL.Parameters["@HRate"].Value = decHRate;
 
                 cmdSQL.Parameters.Add(new SqlParameter("@ErrCode", SqlDbType.Int));
                 cmdSQL.Parameters["@ErrCode"].Direction = ParameterDirection.ReturnValue;

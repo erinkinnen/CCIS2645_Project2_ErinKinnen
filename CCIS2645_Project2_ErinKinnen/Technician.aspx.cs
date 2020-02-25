@@ -13,15 +13,16 @@ namespace CCIS2645_Project2_ErinKinnen
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            //txtError.Text = "Error Message";
-
             if (!IsPostBack)
             {
-                txtError.Text = "";
+                txtError.Text = "Is not postback";
                 LoadTechnicians();
-                //btnUpdate.Enabled = false;
                 //btnAdd.Enabled = false;
                 //btnRemove.Enabled = false;
+            }
+            else
+            {
+                txtError.Text = "Is postback";
             }
         }
 
@@ -41,7 +42,6 @@ namespace CCIS2645_Project2_ErinKinnen
             {
                 blnOk = false;
                 strValMessage += "Last Name is required ";
-                //btnUpdate.Enabled = true;
             }
             if (String.IsNullOrWhiteSpace(txtPhone.Text))
             {
@@ -66,6 +66,17 @@ namespace CCIS2645_Project2_ErinKinnen
             {
                 blnOk = false;
                 strValMessage += "Hourly rate is required ";
+            }
+            else
+            {
+                Decimal decHRate;
+
+                if(!Decimal.TryParse(txtHourlyRate.Text, out decHRate))
+                {
+                    blnOk = false;
+                    strValMessage += "Hourly rate must be numeric";
+                }
+                    
             }
 
             txtError.Text = strValMessage;
@@ -186,7 +197,6 @@ namespace CCIS2645_Project2_ErinKinnen
         protected void ddlTechnician_SelectedIndexChanged(object sender, EventArgs e)
         {
             DisplayTechnician(ddlTechnician.SelectedValue.ToString());
-            //btnUpdate.Enabled = true;
             btnRemove.Enabled = true;
             txtError.Text = "";
         }
@@ -208,41 +218,8 @@ namespace CCIS2645_Project2_ErinKinnen
             txtPhone.Text = "";
             txtHourlyRate.Text = "";
             btnAdd.Enabled = true;
-            //btnUpdate.Enabled = false;
             btnRemove.Enabled = false;
         }
-        //protected void btnUpdate_Click(object sender, EventArgs e)
-        //{
-        //    Int32 intRetValue;
-        //    //String strHS;
-
-        //    txtError.Text = "";
-
-        //    if (FormValidation())
-        //    {
-        //        //** Updating a Technician
-        //        intRetValue = clsDatabase.UpdateTechnician(Convert.ToInt32(ddlTechnician.SelectedValue), txtLastName.Text.Trim(), txtFirstName.Text.Trim(), txtMiddleInitial.Text.Trim(), txtEmail.Text.Trim(), txtDepartment.Text.Trim(), txtPhone.Text.Trim(), txtHourlyRate.Text.Trim());
-
-        //        if (intRetValue == 0)
-        //        {
-        //            LoadTechnicians(); // Reload the Drop Down List
-        //            txtError.Text = "Technician updated";
-        //            ClearForm();
-        //            //btnUpdate.Enabled = true;
-        //        }
-        //        else
-        //        {
-
-        //            txtError.Text = "Error updating Technician";
-        //            //btnUpdate.Enabled = true;
-        //        }
-        //    }
-
-        //    btnUpdate.Enabled = true;
-        //    btnClear.Enabled = true;
-        //    btnRemove.Enabled = false;
-        //    btnCancel.Enabled = true;
-        //}
         protected void btnAdd_Click(object sender, EventArgs e)
         {
             Int32 intRetValue;
@@ -284,13 +261,11 @@ namespace CCIS2645_Project2_ErinKinnen
                         LoadTechnicians(); // Reload the Drop Down List
                         txtError.Text = "Technician updated";
                         ClearForm();
-                        //btnUpdate.Enabled = true;
                     }
                     else
                     {
 
                         txtError.Text = "Error updating Technician";
-                        //btnUpdate.Enabled = true;
                     }
                 }
             }

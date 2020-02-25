@@ -30,12 +30,11 @@
             <asp:TextBox ID="txtHourlyRate" runat="server" style="z-index: 1; left: 220px; top: 255px; position: absolute"></asp:TextBox>
             <asp:Label ID="lblRequired" runat="server" style="z-index: 1; left: 115px; top: 295px; position: absolute" Text="* indicates a required field" ForeColor="#CC3300" Font-Size="Smaller"></asp:Label>
             <asp:Button ID="btnClear" runat="server" style="z-index: 1; left: 497px; top: 337px;  width: 80px; position: absolute; right: 1163px;" Autopostback="True" Text="Clear" OnClick="btnClear_Click" />
-<%--            <asp:Button ID="btnUpdate" runat="server" style="z-index: 1; left: 108px; top:337px; width: 97px; position: absolute; right: 1535px;" Text="Update" OnClick="btnUpdate_Click" />--%>
             <asp:Button ID="btnRemove" runat="server" style="z-index: 1; left: 405px; top:338px; width: 80px; position: absolute" Text="Remove" OnClick="btnRemove_Click" />
             <asp:TextBox ID="txtError" runat="server" style="z-index: 1; left: 10px; top: 443px; position: absolute; width: 353px; height: 60px;" BorderStyle="None" Font-Size="Smaller" ForeColor="#CC3300"></asp:TextBox>
             <asp:Button ID="btnMain_Technician" runat="server" style="z-index: 1; left: 645px; top: 473px; position: absolute" Text="Return to Main Menu" OnClick="btnMain_Technician_Click" />
-            <asp:Button ID="btnCancel" runat="server" style="z-index: 1; left: 317px; top:337px; width: 80px; position: absolute" Text="Cancel" OnClick="btnCancel_Click" />
-            <asp:Button ID="btnAdd" runat="server" style="z-index: 1; left: 212px; top:337px; width: 97px; position: absolute; right: 1431px;" Text="Add/Update" OnClick="btnAdd_Click" />
+            <asp:Button ID="btnCancel" runat="server" style="z-index: 1; left: 238px; top:331px; width: 80px; position: absolute" Text="Cancel" OnClick="btnCancel_Click" />
+            <asp:Button ID="btnAdd" runat="server" style="z-index: 1; left: 117px; top:331px; width: 97px; position: absolute; right: 1470px;" Text="Add/Update" OnClick="btnAdd_Click" />
         </div>
     </form>
 </body>
