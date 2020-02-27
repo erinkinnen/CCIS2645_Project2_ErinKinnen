@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -333,7 +335,7 @@ namespace CCIS2645_Project2_ErinKinnen
             SqlCommand cmdSQL;
             Boolean blnErrorOccurred = false;
             Int32 intRetCode = 0;
-            String newtechIDtest;
+            Int32 newtechIDtest;
 
             cnSQL = AcquireConnection();
             if (cnSQL == null)
@@ -352,9 +354,9 @@ namespace CCIS2645_Project2_ErinKinnen
                 // Creating a new Technican ID to insert
                 cmdSQL.Parameters.Add(new SqlParameter("@NewTechnicianID", SqlDbType.Int));
                 cmdSQL.Parameters["@NewTechnicianID"].Direction = ParameterDirection.Output;
-                //cmdSQL.Parameters["@NewTechnicianID"].Value = newtechIDtest;
+                //cmdSQL.Parameters["@NewTechnicianID"].Value = intTechnicianID;
 
-                 cmdSQL.Parameters.Add(new SqlParameter("@LName", SqlDbType.NVarChar, 30));
+                cmdSQL.Parameters.Add(new SqlParameter("@LName", SqlDbType.NVarChar, 30));
                 cmdSQL.Parameters["@LName"].Direction = ParameterDirection.Input;
                 cmdSQL.Parameters["@LName"].Value = strLName;
 
@@ -412,7 +414,7 @@ namespace CCIS2645_Project2_ErinKinnen
                 try
                 {
                     intRetCode = cmdSQL.ExecuteNonQuery();
-                    //return newtechIDtest; //New Tech ID output capture output parameter returned
+                    //return NewTechnicianID; //New Tech ID output capture output parameter returned
                 }
                 catch (Exception ex)
                 {
