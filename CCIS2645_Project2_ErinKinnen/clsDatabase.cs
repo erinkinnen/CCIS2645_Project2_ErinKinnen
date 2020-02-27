@@ -335,7 +335,7 @@ namespace CCIS2645_Project2_ErinKinnen
             SqlCommand cmdSQL;
             Boolean blnErrorOccurred = false;
             Int32 intRetCode = 0;
-            Int32 newtechIDtest;
+            Int32 newtechID =0;
 
             cnSQL = AcquireConnection();
             if (cnSQL == null)
@@ -414,6 +414,10 @@ namespace CCIS2645_Project2_ErinKinnen
                 try
                 {
                     intRetCode = cmdSQL.ExecuteNonQuery();
+                    if(cmdSQL.Parameters["@NewTechnicianID"] != null)
+                    {
+                        newtechID = Convert.ToInt32(cmdSQL.Parameters["@NewTechnicianID"].Value);
+                    }
                     //return NewTechnicianID; //New Tech ID output capture output parameter returned
                 }
                 catch (Exception ex)
@@ -435,7 +439,7 @@ namespace CCIS2645_Project2_ErinKinnen
             }
             else
             {
-                return 0;
+                return newtechID;
             }
         }
 
